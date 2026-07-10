@@ -10,7 +10,7 @@ warnings.filterwarnings('ignore')
 # Page configuration
 st.set_page_config(
     page_title="E-Commerce Analytics Dashboard",
-    page_icon="📊",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -44,12 +44,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Title
-st.markdown('<h1 class="main-header">📊 E-Commerce Analytics Dashboard</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-header"> E-Commerce Analytics Dashboard</h1>', unsafe_allow_html=True)
 st.markdown("---")
 
-# ============================================
 # DATA LOADING WITH CACHING
-# ============================================
 @st.cache_data
 def load_data():
     """Load and cache the cleaned transaction data."""
@@ -65,7 +63,7 @@ def load_data():
                 df['total_amount'] = df['quantity'] * df['unit_price']
             return df
         except Exception as e:
-            st.error(f"⚠️ Error loading data: {e}")
+            st.error(f" Error loading data: {e}")
             return None
 
 @st.cache_data
@@ -81,17 +79,17 @@ def load_rfm_data():
 df = load_data()
 
 if df is not None:
-    # ============================================
+
     # SIDEBAR FILTERS
-    # ============================================
-    st.sidebar.header("🔍 Filters")
+
+    st.sidebar.header(" Filters")
     st.sidebar.markdown("---")
     
     # Date range filter
     min_date = df['date'].min().date()
     max_date = df['date'].max().date()
     
-    st.sidebar.subheader("📅 Date Range")
+    st.sidebar.subheader(" Date Range")
     date_range = st.sidebar.date_input(
         "Select Date Range",
         value=(min_date, max_date),
@@ -102,30 +100,30 @@ if df is not None:
     st.sidebar.markdown("---")
     
     # Category filter
-    st.sidebar.subheader("📦 Category")
+    st.sidebar.subheader(" Category")
     categories = ['All'] + sorted(df['category'].unique().tolist())
     selected_category = st.sidebar.selectbox("Select Category", categories)
     
     st.sidebar.markdown("---")
     
-    # ============================================
+
     # FIXED: Payment Method Filter
-    # ============================================
-    st.sidebar.subheader("💳 Payment Method")
+
+    st.sidebar.subheader(" Payment Method")
     payment_methods = ['All'] + sorted(df['payment_method'].dropna().unique().tolist())
     selected_payment = st.sidebar.selectbox("Select Payment Method", payment_methods)
     
     st.sidebar.markdown("---")
     
     # City filter
-    st.sidebar.subheader("📍 City")
+    st.sidebar.subheader(" City")
     cities = ['All'] + sorted(df['customer_city'].dropna().unique().tolist())
     selected_city = st.sidebar.selectbox("Select City", cities)
     
     st.sidebar.markdown("---")
     
     # Price range filter
-    st.sidebar.subheader("💰 Price Range")
+    st.sidebar.subheader(" Price Range")
     min_price = float(df['total_amount'].min())
     max_price = float(df['total_amount'].max())
     price_range = st.sidebar.slider(
@@ -137,11 +135,10 @@ if df is not None:
     )
     
     st.sidebar.markdown("---")
-    st.sidebar.info("💡 Use filters to explore your data interactively!")
+    st.sidebar.info(" Use filters to explore your data interactively!")
     
-    # ============================================
     # APPLY FILTERS WITH ERROR HANDLING
-    # ============================================
+
     try:
         filtered_df = df.copy()
         
@@ -156,9 +153,8 @@ if df is not None:
         if selected_category != 'All':
             filtered_df = filtered_df[filtered_df['category'] == selected_category]
         
-        # ============================================
         # FIXED: Apply payment method filter safely
-        # ============================================
+
         if selected_payment != 'All' and selected_payment is not None:
             filtered_df = filtered_df[filtered_df['payment_method'] == selected_payment]
         
@@ -176,20 +172,19 @@ if df is not None:
         filtered_df = filtered_df.reset_index(drop=True)
         
     except Exception as e:
-        st.error(f"⚠️ Error applying filters: {e}")
+        st.error(f" Error applying filters: {e}")
         filtered_df = df.copy()
     
-    # ============================================
     # CHECK IF DATA IS EMPTY
-    # ============================================
+
     if filtered_df.empty:
-        st.warning("⚠️ No data matches the selected filters. Please adjust your filters.")
+        st.warning(" No data matches the selected filters. Please adjust your filters.")
         filtered_df = df.copy()  # Reset to show all data
     
-    # ============================================
+
     # KPI CARDS
-    # ============================================
-    st.header("📈 Key Performance Indicators")
+
+    st.header(" Key Performance Indicators")
     
     total_revenue = filtered_df['total_amount'].sum()
     total_orders = len(filtered_df)
@@ -204,7 +199,7 @@ if df is not None:
         st.markdown(f"""
         <div class="kpi-card">
             <div class="kpi-value">₹{total_revenue:,.0f}</div>
-            <div class="kpi-label">💰 Total Revenue</div>
+            <div class="kpi-label"> Total Revenue</div>
         </div>
         """, unsafe_allow_html=True)
     
@@ -212,7 +207,7 @@ if df is not None:
         st.markdown(f"""
         <div class="kpi-card">
             <div class="kpi-value">{total_orders:,}</div>
-            <div class="kpi-label">📦 Total Orders</div>
+            <div class="kpi-label"> Total Orders</div>
         </div>
         """, unsafe_allow_html=True)
     
@@ -220,7 +215,7 @@ if df is not None:
         st.markdown(f"""
         <div class="kpi-card">
             <div class="kpi-value">{unique_customers:,}</div>
-            <div class="kpi-label">👥 Unique Customers</div>
+            <div class="kpi-label"> Unique Customers</div>
         </div>
         """, unsafe_allow_html=True)
     
@@ -228,7 +223,7 @@ if df is not None:
         st.markdown(f"""
         <div class="kpi-card">
             <div class="kpi-value">₹{avg_order_value:,.2f}</div>
-            <div class="kpi-label">📊 Avg Order Value</div>
+            <div class="kpi-label"> Avg Order Value</div>
         </div>
         """, unsafe_allow_html=True)
     
@@ -236,7 +231,7 @@ if df is not None:
         st.markdown(f"""
         <div class="kpi-card">
             <div class="kpi-value">{total_quantity:,}</div>
-            <div class="kpi-label">📦 Total Items Sold</div>
+            <div class="kpi-label"> Total Items Sold</div>
         </div>
         """, unsafe_allow_html=True)
     
@@ -244,19 +239,19 @@ if df is not None:
         st.markdown(f"""
         <div class="kpi-card">
             <div class="kpi-value">{unique_products}</div>
-            <div class="kpi-label">🏷️ Unique Products</div>
+            <div class="kpi-label"> Unique Products</div>
         </div>
         """, unsafe_allow_html=True)
     
     st.markdown("---")
     
-    # ============================================
+
     # ROW 1: Monthly Revenue & Category
-    # ============================================
+
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("📈 Monthly Revenue Trend")
+        st.subheader(" Monthly Revenue Trend")
         if not filtered_df.empty and len(filtered_df) > 1:
             monthly = filtered_df.groupby(filtered_df['date'].dt.to_period('M'))['total_amount'].sum().reset_index()
             monthly['date'] = monthly['date'].astype(str)
@@ -280,7 +275,7 @@ if df is not None:
             st.info("No data available for the selected filters.")
     
     with col2:
-        st.subheader("🏷️ Revenue by Category")
+        st.subheader(" Revenue by Category")
         if not filtered_df.empty:
             category = filtered_df.groupby('category')['total_amount'].sum().reset_index()
             category = category.sort_values('total_amount', ascending=True)
@@ -304,13 +299,13 @@ if df is not None:
         else:
             st.info("No data available for the selected filters.")
     
-    # ============================================
+
     # ROW 2: Payment Methods & City
-    # ============================================
+
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("💳 Payment Method Distribution")
+        st.subheader(" Payment Method Distribution")
         if not filtered_df.empty:
             payment = filtered_df['payment_method'].value_counts().reset_index()
             payment.columns = ['payment_method', 'count']
@@ -335,7 +330,7 @@ if df is not None:
             st.info("No data available for the selected filters.")
     
     with col2:
-        st.subheader("📍 Revenue by City")
+        st.subheader(" Revenue by City")
         if not filtered_df.empty:
             city = filtered_df.groupby('customer_city')['total_amount'].sum().reset_index()
             city = city.sort_values('total_amount', ascending=True).tail(10)
@@ -359,10 +354,10 @@ if df is not None:
         else:
             st.info("No data available for the selected filters.")
     
-    # ============================================
-    # ROW 3: Payment Method vs Revenue (NEW)
-    # ============================================
-    st.subheader("💳 Payment Method Analysis")
+    
+    # ROW 3: Payment Method vs Revenue 
+
+    st.subheader(" Payment Method Analysis")
     
     col1, col2 = st.columns(2)
     
@@ -413,13 +408,13 @@ if df is not None:
         else:
             st.info("No data available.")
     
-    # ============================================
+
     # ROW 4: Top Products & Customers
-    # ============================================
+
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("🏆 Top 10 Products by Revenue")
+        st.subheader(" Top 10 Products by Revenue")
         if not filtered_df.empty:
             products = filtered_df.groupby('product_name')['total_amount'].sum().reset_index()
             products = products.sort_values('total_amount', ascending=False).head(10)
@@ -445,7 +440,7 @@ if df is not None:
             st.info("No data available for the selected filters.")
     
     with col2:
-        st.subheader("👑 Top 10 Customers by Spending")
+        st.subheader(" Top 10 Customers by Spending")
         if not filtered_df.empty:
             customers = filtered_df.groupby('customer_id')['total_amount'].sum().reset_index()
             customers = customers.sort_values('total_amount', ascending=False).head(10)
@@ -471,10 +466,10 @@ if df is not None:
         else:
             st.info("No data available for the selected filters.")
     
-    # ============================================
+
     # ROW 5: Distributions
-    # ============================================
-    st.subheader("📊 Transaction Analysis")
+
+    st.subheader(" Transaction Analysis")
     
     col1, col2 = st.columns(2)
     
@@ -528,9 +523,9 @@ if df is not None:
         else:
             st.info("Not enough data for distribution.")
     
-    # ============================================
+
     # ROW 6: Customer Age
-    # ============================================
+
     st.subheader("👤 Customer Demographics")
     
     col1, col2 = st.columns(2)
@@ -578,10 +573,10 @@ if df is not None:
         else:
             st.info("No data available.")
     
-    # ============================================
+
     # RFM SEGMENTATION
-    # ============================================
-    st.header("👥 Customer Segmentation (RFM)")
+
+    st.header("Customer Segmentation (RFM)")
     
     rfm_df = load_rfm_data()
     
@@ -605,7 +600,7 @@ if df is not None:
             st.plotly_chart(fig11, use_container_width=True)
         
         with col2:
-            st.subheader("📊 Segment Summary")
+            st.subheader("Segment Summary")
             display_rfm = rfm_df.copy()
             display_rfm['customer_count'] = display_rfm['customer_count'].astype(int)
             display_rfm['percentage'] = display_rfm['percentage'].round(1)
@@ -630,12 +625,12 @@ if df is not None:
     else:
         st.info("Run the pipeline to generate RFM analysis: `python -m src.main`")
     
-    # ============================================
+
     # DATA TABLE & DOWNLOAD
-    # ============================================
-    st.header("📋 Data Preview")
+
+    st.header("Data Preview")
     
-    with st.expander("🔽 Click to view data preview", expanded=False):
+    with st.expander("Click to view data preview", expanded=False):
         st.dataframe(
             filtered_df.head(100),
             use_container_width=True,
@@ -646,7 +641,7 @@ if df is not None:
     
     with col1:
         st.download_button(
-            label="📥 Download Filtered Data (CSV)",
+            label="Download Filtered Data (CSV)",
             data=filtered_df.to_csv(index=False).encode('utf-8'),
             file_name='filtered_data.csv',
             mime='text/csv',
@@ -666,7 +661,7 @@ if df is not None:
                 ]
             })
             st.download_button(
-                label="📊 Download Summary (CSV)",
+                label="Download Summary (CSV)",
                 data=summary_df.to_csv(index=False).encode('utf-8'),
                 file_name='dashboard_summary.csv',
                 mime='text/csv',
@@ -676,27 +671,27 @@ if df is not None:
     with col3:
         st.markdown(f"""
         <div style="text-align:center; padding:1rem; background-color:#f0f2f6; border-radius:10px;">
-            <span style="font-size:1.2rem;">📊 Showing <b>{len(filtered_df):,}</b> records</span>
+            <span style="font-size:1.2rem;">Showing <b>{len(filtered_df):,}</b> records</span>
         </div>
         """, unsafe_allow_html=True)
     
-    # ============================================
+   
     # FOOTER
-    # ============================================
+  
     st.markdown("---")
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.caption(f"📅 Data Range: {filtered_df['date'].min().date()} to {filtered_df['date'].max().date()}")
+        st.caption(f"Data Range: {filtered_df['date'].min().date()} to {filtered_df['date'].max().date()}")
     
     with col2:
-        st.caption(f"🏷️ Categories: {filtered_df['category'].nunique()} | Products: {filtered_df['product_name'].nunique()}")
+        st.caption(f" Categories: {filtered_df['category'].nunique()} | Products: {filtered_df['product_name'].nunique()}")
     
     with col3:
-        st.caption(f"🔄 Last Updated: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        st.caption(f" Last Updated: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
 else:
-    st.error("⚠️ No data found!")
+    st.error("No data found!")
     st.info("""
     ### Please run the pipeline first:
     
