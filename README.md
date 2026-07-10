@@ -119,93 +119,102 @@ A **complete end-to-end data analytics project** that analyzes e-commerce transa
 ---
 
 ##  Project Structure
+
+```text
 E-Commerce-Analytics-Dashboard/
-│
 ├── config/
-│ └── config.yaml
+│   └── config.yaml                    # Configuration settings
 │
 ├── data/
-│ ├── raw/
-│ │ └── data.csv
-│ ├── interim/
-│ └── processed/
-│ └── clean_transactions.csv
+│   ├── raw/                           # Raw data (generated)
+│   │   └── data.csv
+│   ├── interim/                       # Intermediate data
+│   └── processed/                     # Cleaned, analysis-ready data
+│       └── clean_transactions.csv
 │
-├── src/
-│ ├── init.py
-│ ├── main.py
-│ ├── data/
-│ │ ├── init.py
-│ │ ├── make_dataset.py
-│ │ └── clean_data.py
-│ ├── features/
-│ │ ├── init.py
-│ │ └── build_features.py
-│ ├── analysis/
-│ │ ├── init.py
-│ │ ├── eda.py
-│ │ ├── rfm.py
-│ │ └── inventory.py
-│ ├── visualization/
-│ │ ├── init.py
-│ │ └── visualize.py
-│ ├── export/
-│ │ ├── init.py
-│ │ └── to_powerbi.py
-│ └── utils/
-│ └── init.py
+├── src/                               # Source code (modular)
+│   ├── data/                          # Data loading & cleaning
+│   │   ├── __init__.py
+│   │   ├── make_dataset.py            # Generate & load data
+│   │   └── clean_data.py              # Clean & validate data
+│   │
+│   ├── features/                      # Feature engineering
+│   │   ├── __init__.py
+│   │   └── build_features.py          # Create derived features
+│   │
+│   ├── analysis/                      # Core analysis
+│   │   ├── __init__.py
+│   │   ├── eda.py                     # Exploratory analysis
+│   │   ├── rfm.py                     # RFM segmentation
+│   │   └── inventory.py               # Inventory optimization
+│   │
+│   ├── visualization/                 # Chart generation
+│   │   ├── __init__.py
+│   │   └── visualize.py               # Create visualizations
+│   │
+│   ├── export/                        # Data export
+│   │   ├── __init__.py
+│   │   └── to_powerbi.py              # Export for Power BI
+│   │
+│   ├── utils/                         # Utility functions
+│   │   └── __init__.py
+│   │
+│   ├── __init__.py
+│   └── main.py                        # Main pipeline script
 │
-├── powerbi/
-│ ├── dax_measures.txt
-│ ├── powerbi_setup.md
-│ ├── fact_transactions.csv
-│ ├── dim_date.csv
-│ ├── dim_customer.csv
-│ ├── dim_product.csv
-│ └── inventory_metrics.csv
+├── powerbi/                           # Power BI files
+│   ├── dax_measures.txt
+│   ├── powerbi_setup.md
+│   ├── fact_transactions.csv
+│   ├── dim_date.csv
+│   ├── dim_customer.csv
+│   ├── dim_product.csv
+│   └── inventory_metrics.csv
 │
-├── sql/
-│ ├── queries.sql
-│ ├── mysql_queries.py
-│ ├── load_data_to_mysql.py
-│ └── run_mysql_queries.py
+├── sql/                               # SQL queries
+│   ├── queries.sql
+│   ├── mysql_queries.py
+│   ├── load_data_to_mysql.py
+│   └── run_mysql_queries.py
 │
-├── outputs/
-│ ├── figures/
-│ │ ├── monthly_revenue.png
-│ │ ├── category_revenue.png
-│ │ ├── transaction_distribution.png
-│ │ └── payment_methods.png
-│ └── reports/
-│ ├── kpi_summary.csv
-│ ├── rfm_summary.csv
-│ ├── inventory_recommendations.csv
-│ └── category_performance.csv
+├── outputs/                           # Generated outputs
+│   ├── figures/                       # Visualizations (PNG)
+│   │   ├── monthly_revenue.png
+│   │   ├── category_revenue.png
+│   │   ├── transaction_distribution.png
+│   │   └── payment_methods.png
+│   │
+│   └── reports/                       # CSV reports
+│       ├── kpi_summary.csv
+│       ├── rfm_summary.csv
+│       ├── inventory_recommendations.csv
+│       └── category_performance.csv
 │
-├── notebooks/
-│ └── 01_eda_exploration.ipynb
+├── notebooks/                         # Jupyter notebooks
+│   └── 01_eda_exploration.ipynb
 │
-├── tests/
-│ ├── init.py
-│ └── test_clean_data.py
+├── tests/                             # Unit tests
+│   ├── __init__.py
+│   └── test_clean_data.py
 │
-├── .streamlit/
-│ └── config.toml
+├── .streamlit/                        # Streamlit configuration
+│   └── config.toml
 │
-├── scripts/
-│ └── run_dashboard.sh
+├── scripts/                           # Utility scripts
+│   └── run_dashboard.sh
 │
-├── logs/
-│ └── pipeline.log
+├── logs/                              # Execution logs
+│   └── pipeline.log
 │
-├── app.py
-├── requirements.txt
-├── setup.py
-├── run_dashboard.sh
-├── .env
-├── .gitignore
-├── LICENSE
-└── README.md
+├── app.py                             # Streamlit dashboard
+├── requirements.txt                   # Python dependencies
+├── setup.py                           # Package setup
+├── run_dashboard.sh                   # Dashboard launcher
+├── .env                               # Environment variables
+├── .gitignore                         # Git ignore file
+├── LICENSE                            # MIT License
+└── README.md                          # Project documentation
+```
 
 ##  Installation Guide
 
