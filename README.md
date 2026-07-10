@@ -1,4 +1,4 @@
-# 🚀 E-Commerce Analytics Dashboard
+# E-Commerce Analytics Dashboard
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 [![Pandas](https://img.shields.io/badge/Pandas-1.5.0+-orange.svg)](https://pandas.pydata.org/)
