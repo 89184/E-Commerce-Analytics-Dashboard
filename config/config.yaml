@@ -1,0 +1,23 @@
+data:
+  raw_data_path: "data/raw/data.csv"
+  interim_data_path: "data/interim/"
+  processed_data_path: "data/processed/clean_transactions.csv"
+  sample_size: 50000
+  random_seed: 42
+
+analysis:
+  rfm:
+    recency_weight: 0.4
+    frequency_weight: 0.4
+    monetary_weight: 0.2
+  inventory:
+    low_performance_threshold: 0.25
+    optimization_target: 0.20
+
+export:
+  powerbi_path: "powerbi/"
+  outputs_path: "outputs/"
+
+logging:
+  level: "INFO"
+  file: "logs/pipeline.log"

@@ -1,0 +1,76 @@
+POWER BI DAX MEASURES FOR E-COMMERCE DASHBOARD
+
+
+----- BASIC KPIs -----
+
+Total Revenue = SUM(fact_transactions[total_amount])
+
+Total Orders = COUNTROWS(fact_transactions)
+
+Unique Customers = DISTINCTCOUNT(fact_transactions[customer_id])
+
+Avg Order Value = AVERAGE(fact_transactions[total_amount])
+
+Total Quantity Sold = SUM(fact_transactions[quantity])
+
+----- ADVANCED KPIs -----
+
+Customer Lifetime Value = 
+DIVIDE(
+    [Total Revenue],
+    [Unique Customers]
+)
+
+Repeat Purchase Rate = 
+VAR RepeatCustomers = 
+    CALCULATE(
+        COUNTROWS(VALUES(fact_transactions[customer_id])),
+        FILTER(
+            VALUES(fact_transactions[customer_id]),
+            CALCULATE(COUNTROWS(fact_transactions)) > 1
+        )
+    )
+VAR AllCustomers = [Unique Customers]
+RETURN
+    DIVIDE(RepeatCustomers, AllCustomers)
+
+Month-over-Month Growth = 
+VAR CurrentMonth = [Total Revenue]
+VAR PreviousMonth = 
+    CALCULATE(
+        [Total Revenue],
+        DATEADD('dim_date'[date], -1, MONTH)
+    )
+RETURN
+    DIVIDE(CurrentMonth - PreviousMonth, PreviousMonth)
+
+----- CATEGORY ANALYSIS -----
+
+Category Revenue Share = 
+DIVIDE(
+    SUM(fact_transactions[total_amount]),
+    CALCULATE(SUM(fact_transactions[total_amount]), ALLSELECTED(fact_transactions[category]))
+)
+
+----- TIME INTELLIGENCE -----
+
+Sales MTD = 
+TOTALMTD(
+    SUM(fact_transactions[total_amount]),
+    'dim_date'[date]
+)
+
+Sales YTD = 
+TOTALYTD(
+    SUM(fact_transactions[total_amount]),
+    'dim_date'[date]
+)
+
+Running Total = 
+CALCULATE(
+    SUM(fact_transactions[total_amount]),
+    FILTER(
+        ALL('dim_date'),
+        'dim_date'[date] <= MAX('dim_date'[date])
+    )
+)

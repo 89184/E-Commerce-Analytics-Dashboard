@@ -1,0 +1,81 @@
+
+""" Step 1: Install MySQL
+bash
+# Update package list
+
+sudo apt update
+
+# Install MySQL server
+
+sudo apt install mysql-server -y
+
+# Install MySQL client
+
+sudo apt install mysql-client -y
+
+# Install development libraries
+
+sudo apt install libmysqlclient-dev -y
+
+Step 2: Start MySQL Service
+
+bash
+
+# Start MySQL service
+
+sudo systemctl start mysql
+
+# Enable MySQL to start on boot
+
+sudo systemctl enable mysql
+
+# Check status
+
+sudo systemctl status mysql
+
+Step 3: Secure MySQL Installation
+
+bash
+
+# Run security script
+
+sudo mysql_secure_installation
+
+# Follow prompts:
+# - Validate password plugin? NO (or YES if you want)
+# - Set root password: Choose a strong password
+# - Remove anonymous users? YES
+# - Disallow root login remotely? YES
+# - Remove test database? YES
+# - Reload privilege tables? YES
+
+Step 4: Test Connection
+bash
+# Connect to MySQL
+sudo mysql -u root -p
+
+# Enter your password when prompted
+# You should see: mysql>
+
+Step 5: Create Database and User
+sql
+-- Login to MySQL
+sudo mysql -u root -p
+
+-- Create database
+CREATE DATABASE IF NOT EXISTS ecommerce_analytics;
+
+-- Create user (replace 'your_password' with a strong password)
+
+CREATE USER IF NOT EXISTS 'ecommerce_user'@'localhost' IDENTIFIED BY 'your_password';
+
+-- Grant privileges
+GRANT ALL PRIVILEGES ON ecommerce_analytics.* TO 'ecommerce_user'@'localhost';
+
+-- Apply changes
+FLUSH PRIVILEGES;
+
+-- Exit
+EXIT;
+
+"""
